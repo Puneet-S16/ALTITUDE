@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #F5F2EC;
+  --color-surface: #FFFFFF;
+  --color-text: #15171A;
+  --color-text-muted: #6B6F76;
+  --color-border: #E3DED4;
+  --color-accent: #D9480F;
+  --color-accent-hover: #BF3F0D;
+  --color-secondary: #1F3A2E;
+  --color-secondary-contrast: #FFFFFF;
+}
+
+.dark {
+  --color-bg: #0E1110;
+  --color-surface: #161A18;
+  --color-text: #EDEAE3;
+  --color-text-muted: #9AA09C;
+  --color-border: #26302B;
+  --color-accent: #FF6B35;
+  --color-accent-hover: #FA581D;
+  --color-secondary: #8FB9A0;
+  --color-secondary-contrast: #0E1110;
+}
+
+/* 300ms smooth transition for theme switching */
+html, body, div, section, header, nav, footer, article, aside, span, p, h1, h2, h3, h4, h5, h6, a, button, input, textarea {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Base typography */
+body {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+/* Editorial line length constraint */
+.prose-editorial {
+  max-width: 65ch;
+}
+
+/* Lenis smooth scroll recommended CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Film grain noise overlay (4% opacity, no purple or blue-purple gradients) */
+.film-grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Interactive Link Underline Sweep (draws left to right on hover, retracts to right on leave) */
+.link-sweep {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.link-sweep::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-sweep:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Primary Button Background Sweep (sweeps from left to right) */
+.btn-sweep {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-accent-hover);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+
+.btn-sweep:hover::before {
+  transform: scaleX(1);
+}
+
+/* Keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
